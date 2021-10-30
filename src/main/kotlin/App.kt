@@ -24,11 +24,15 @@ class App : RComponent<Props, State>() {
             h3 {
                 +"Videos to watch"
             }
-            child(VideoList::class) {}
+            child(VideoList::class) {
+                attrs.videos = unwatchedVideos
+            }
             h3 {
                 +"Videos watched"
             }
-            child(VideoList::class) {}
+            child(VideoList::class) {
+                attrs.videos = watchedVideos
+            }
         }
         styledDiv {
             css {

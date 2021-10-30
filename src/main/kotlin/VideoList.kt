@@ -4,8 +4,17 @@ import react.RComponent
 import react.State
 import react.dom.p
 
-class VideoList : RComponent<Props, State>() {
+external interface VideoListProps : Props {
+    var videos: List<Video>
+}
+
+class VideoList : RComponent<VideoListProps, State>() {
     override fun RBuilder.render() {
-        unwatchedVideos.forEach { video -> p { +"${video.speaker}: ${video.title}" } }
+        props.videos.forEach { video ->
+            p {
+                key = video.id.toString()
+                +"${video.speaker}: ${video.title}"
+            }
+        }
     }
 }
