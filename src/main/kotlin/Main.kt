@@ -8,6 +8,7 @@ import react.dom.p
 import react.dom.render
 
 fun main() {
+
     render(document.getElementById("root")) {
         h1 {
             +"KotlinConf Explorer"
@@ -16,21 +17,15 @@ fun main() {
             h3 {
                 +"Videos to watch"
             }
-            p {
-                +"John Doe: Building and breaking things"
-            }
-            p {
-                +"Jane Smith: The development process"
-            }
-            p {
-                +"Matt Miller: The Web 7.0"
+            for (video in unwatchedVideos) {
+                p {
+                    +"${video.speaker}: ${video.title}"
+                }
             }
             h3 {
                 +"Videos watched"
             }
-            p {
-                +"Tom Jerry: Mouseless development"
-            }
+            watchedVideos.forEach { video -> p { +"${video.speaker}: ${video.title}" } }
         }
         div {
             h3 {
@@ -44,3 +39,13 @@ fun main() {
         }
     }
 }
+
+val unwatchedVideos = listOf<KotlinVideo>(
+    KotlinVideo(1, "Building and breaking things", "John Doe", "https://youtu.be/PsaFVLr8t4E"),
+    KotlinVideo(2, "The development process", "Jane Smith", "https://youtu.be/PsaFVLr8t4E"),
+    KotlinVideo(3, "The Web 7.0", "Matt Miller", "https://youtu.be/PsaFVLr8t4E")
+)
+
+val watchedVideos = listOf<KotlinVideo>(
+    KotlinVideo(4, "Mouseless development", "Tom Jerry", "https://youtu.be/PsaFVLr8t4E")
+)
