@@ -12,7 +12,6 @@ import react.dom.div
 import react.dom.h1
 import react.dom.h3
 import react.dom.img
-import react.dom.p
 import styled.css
 import styled.styledDiv
 
@@ -25,15 +24,11 @@ class App : RComponent<Props, State>() {
             h3 {
                 +"Videos to watch"
             }
-            for (video in unwatchedVideos) {
-                p {
-                    +"${video.speaker}: ${video.title}"
-                }
-            }
+            child(VideoList::class) {}
             h3 {
                 +"Videos watched"
             }
-            watchedVideos.forEach { video -> p { +"${video.speaker}: ${video.title}" } }
+            child(VideoList::class) {}
         }
         styledDiv {
             css {
