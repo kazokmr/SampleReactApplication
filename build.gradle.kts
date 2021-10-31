@@ -34,6 +34,10 @@ kotlin {
     }
 }
 
+tasks.register("stage") {
+    dependsOn("build")
+}
+
 // This block is from https://github.com/JetBrains/compose-jb/issues/1259
 afterEvaluate {
     rootProject.extensions.configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
