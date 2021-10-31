@@ -1,4 +1,3 @@
-import kotlinx.browser.window
 import kotlinx.html.js.onClickFunction
 import react.Props
 import react.RBuilder
@@ -6,20 +5,30 @@ import react.RComponent
 import react.State
 import react.dom.attrs
 import react.dom.p
+import react.setState
 
 external interface VideoListProps : Props {
     var videos: List<Video>
 }
 
-class VideoList : RComponent<VideoListProps, State>() {
+external interface VideoListState : State {
+    var selectedVideo: Video?
+}
+
+class VideoList : RComponent<VideoListProps, VideoListState>() {
     override fun RBuilder.render() {
         props.videos.forEach { video ->
             p {
                 key = video.id.toString()
                 attrs {
                     onClickFunction = {
-                        window.alert("Clicked $video!")
+                        setState {
+                            selectedVideo = video
+                        }
                     }
+                }
+                if (video == state.selectedVideo) {
+                    +"▶ "
                 }
                 +"${video.speaker}: ${video.title}"
             }
