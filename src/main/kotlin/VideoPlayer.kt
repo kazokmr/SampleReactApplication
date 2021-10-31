@@ -3,6 +3,7 @@ import kotlinx.css.Display
 import kotlinx.css.Position
 import kotlinx.css.backgroundColor
 import kotlinx.css.display
+import kotlinx.css.marginBottom
 import kotlinx.css.position
 import kotlinx.css.px
 import kotlinx.css.right
@@ -46,6 +47,26 @@ class VideoPlayer : RComponent<VideoPlayerProps, State>() {
                     }
                 }
                 if (props.unwatchedVideo) +"Mark as watched" else +"Mark as unwatched"
+            }
+            styledDiv {
+                css {
+                    display = Display.flex
+                    marginBottom = 10.px
+                }
+                emailShareButton {
+                    attrs.url = props.video.videoUrl
+                    emailIcon {
+                        attrs.size = 32
+                        attrs.round = true
+                    }
+                }
+                telegramShareButton {
+                    attrs.url = props.video.videoUrl
+                    telegramIcon {
+                        attrs.size = 32
+                        attrs.round = true
+                    }
+                }
             }
             reactPlayer {
                 attrs.url = props.video.videoUrl

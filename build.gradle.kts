@@ -17,8 +17,8 @@ dependencies {
     implementation(npm("react", "17.0.2"))
     implementation(npm("react-dom", "17.0.2"))
     implementation(npm("styled-components", "^5.3.3"))
+    implementation(npm("react-youtube-lite", "^1.1.0"))
     implementation(npm("react-share", "^4.4.0"))
-    implementation(npm("react-youtube-lite", "1.0.1"))
 
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.5.31")
 }
