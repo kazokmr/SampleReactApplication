@@ -12,10 +12,15 @@ import react.dom.div
 import react.dom.h1
 import react.dom.h3
 import react.dom.img
+import react.setState
 import styled.css
 import styled.styledDiv
 
-class App : RComponent<Props, State>() {
+external interface AppState : State {
+    var currentVideo: Video?
+}
+
+class App : RComponent<Props, AppState>() {
     override fun RBuilder.render() {
         h1 {
             +"KotlinConf Explorer"
@@ -26,12 +31,24 @@ class App : RComponent<Props, State>() {
             }
             videoList {
                 videos = unwatchedVideos
+                selectedVideo = state.currentVideo
+                onSelectVideo = { video ->
+                    setState {
+                        currentVideo = video
+                    }
+                }
             }
             h3 {
                 +"Videos watched"
             }
             videoList {
                 videos = watchedVideos
+                selectedVideo = state.currentVideo
+                onSelectVideo = { video ->
+                    setState {
+                        currentVideo = video
+                    }
+                }
             }
         }
         styledDiv {
