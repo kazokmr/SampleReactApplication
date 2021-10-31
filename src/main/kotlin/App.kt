@@ -9,6 +9,8 @@ import react.setState
 
 external interface AppState : State {
     var currentVideo: Video?
+    var unwatchedVideos: List<Video>
+    var watchedVideos: List<Video>
 }
 
 class App : RComponent<Props, AppState>() {
@@ -21,7 +23,7 @@ class App : RComponent<Props, AppState>() {
                 +"Videos to watch"
             }
             videoList {
-                videos = unwatchedVideos
+                videos = state.unwatchedVideos
                 selectedVideo = state.currentVideo
                 onSelectVideo = { video ->
                     setState {
@@ -33,7 +35,7 @@ class App : RComponent<Props, AppState>() {
                 +"Videos watched"
             }
             videoList {
-                videos = watchedVideos
+                videos = state.watchedVideos
                 selectedVideo = state.currentVideo
                 onSelectVideo = { video ->
                     setState {
@@ -45,7 +47,32 @@ class App : RComponent<Props, AppState>() {
         state.currentVideo?.let { currentVideo ->
             videoPlayer {
                 video = currentVideo
+                unwatchedVideo = currentVideo in state.unwatchedVideos
+                onWatchedButtonPressed = {
+                    if (video in state.unwatchedVideos) {
+                        setState {
+                            unwatchedVideos = unwatchedVideos - video
+                            watchedVideos = watchedVideos + video
+                        }
+                    } else {
+                        setState {
+                            unwatchedVideos = unwatchedVideos + video
+                            watchedVideos = watchedVideos - video
+                        }
+                    }
+                }
             }
         }
+    }
+
+    override fun AppState.init() {
+        unwatchedVideos = listOf(
+            KotlinVideo(1, "Building and breaking things", "John Doe", "https://youtu.be/PsaFVLr8t4E"),
+            KotlinVideo(2, "The development process", "Jane Smith", "https://youtu.be/PsaFVLr8t4E"),
+            KotlinVideo(3, "The Web 7.0", "Matt Miller", "https://youtu.be/PsaFVLr8t4E")
+        )
+        watchedVideos = listOf(
+            KotlinVideo(4, "Mouseless development", "Tom Jerry", "https://youtu.be/PsaFVLr8t4E")
+        )
     }
 }
