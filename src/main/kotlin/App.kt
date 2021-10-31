@@ -1,3 +1,5 @@
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import react.Props
 import react.RBuilder
 import react.RComponent
@@ -66,13 +68,15 @@ class App : RComponent<Props, AppState>() {
     }
 
     override fun AppState.init() {
-        unwatchedVideos = listOf(
-            KotlinVideo(1, "Building and breaking things", "John Doe", "https://youtu.be/PsaFVLr8t4E"),
-            KotlinVideo(2, "The development process", "Jane Smith", "https://youtu.be/PsaFVLr8t4E"),
-            KotlinVideo(3, "The Web 7.0", "Matt Miller", "https://youtu.be/PsaFVLr8t4E")
-        )
-        watchedVideos = listOf(
-            KotlinVideo(4, "Mouseless development", "Tom Jerry", "https://youtu.be/PsaFVLr8t4E")
-        )
+        unwatchedVideos = listOf()
+        watchedVideos = listOf()
+
+        val mainScope = MainScope()
+        mainScope.launch {
+            val videos = fetchVideos()
+            setState {
+                unwatchedVideos = videos
+            }
+        }
     }
 }
