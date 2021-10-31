@@ -14,7 +14,6 @@ import react.RComponent
 import react.State
 import react.dom.attrs
 import react.dom.h3
-import react.dom.img
 import styled.css
 import styled.styledButton
 import styled.styledDiv
@@ -48,10 +47,8 @@ class VideoPlayer : RComponent<VideoPlayerProps, State>() {
                 }
                 if (props.unwatchedVideo) +"Mark as watched" else +"Mark as unwatched"
             }
-            img {
-                attrs {
-                    src = "https://via.placeholder.com/640x360.png?text=Video+Player+Placeholder"
-                }
+            reactPlayer {
+                attrs.url = props.video.videoUrl
             }
         }
     }
