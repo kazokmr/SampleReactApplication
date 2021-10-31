@@ -1,7 +1,10 @@
+import kotlinx.browser.window
+import kotlinx.html.js.onClickFunction
 import react.Props
 import react.RBuilder
 import react.RComponent
 import react.State
+import react.dom.attrs
 import react.dom.p
 
 external interface VideoListProps : Props {
@@ -13,6 +16,11 @@ class VideoList : RComponent<VideoListProps, State>() {
         props.videos.forEach { video ->
             p {
                 key = video.id.toString()
+                attrs {
+                    onClickFunction = {
+                        window.alert("Clicked $video!")
+                    }
+                }
                 +"${video.speaker}: ${video.title}"
             }
         }
