@@ -10,7 +10,7 @@ import react.useState
 
 val app = fc<Props> {
 
-    // StateはKotlinのDelegateを使うとset関数を宣言しなくても適切なhookの呼び出しでラップしてくれる
+    // StateはKotlinのDelegateプロパティを用いてuseState()モジュールに委譲させると、set関数を宣言しなくても適切なhookの呼び出しでラップしてくれる
     var currentVideo by useState<Video>()
     var unwatchedVideos by useState<List<Video>>(emptyList())
     var watchedVideos by useState<List<Video>>(emptyList())
