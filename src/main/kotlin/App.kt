@@ -9,16 +9,18 @@ import react.useEffectOnce
 import react.useState
 
 val app = fc<Props> {
-    val (currentVideo, setCurrentVideo) = useState<Video>()
-    val (unwatchedVideos, setUnwatchedVideos) = useState<List<Video>>(emptyList())
-    val (watchedVideos, setWatchedVideos) = useState<List<Video>>(emptyList())
+
+    // StateはKotlinのDelegateを使うとset関数を宣言しなくても適切なhookの呼び出しでラップしてくれる
+    var currentVideo by useState<Video>()
+    var unwatchedVideos by useState<List<Video>>(emptyList())
+    var watchedVideos by useState<List<Video>>(emptyList())
 
     // 初回のレンダリングのみで作用させる場合(useEffect(*emptyArray())と等価っぽい。あとemptyList()だとコンパイルエラーになる)
     useEffectOnce {
         val mainScope = MainScope()
         mainScope.launch {
             val videos = fetchVideos()
-            setUnwatchedVideos(videos)
+            unwatchedVideos = videos
         }
     }
 
@@ -32,7 +34,7 @@ val app = fc<Props> {
         videoList {
             videos = unwatchedVideos
             selectedVideo = currentVideo
-            onSelectVideo = { video -> setCurrentVideo(video) }
+            onSelectVideo = { video -> currentVideo = video }
         }
         h3 {
             +"Videos watched"
@@ -40,7 +42,7 @@ val app = fc<Props> {
         videoList {
             videos = watchedVideos
             selectedVideo = currentVideo
-            onSelectVideo = { video -> setCurrentVideo(video) }
+            onSelectVideo = { video -> currentVideo = video }
         }
         currentVideo?.let { currentVideo ->
             videoPlayer {
@@ -48,11 +50,11 @@ val app = fc<Props> {
                 unwatchedVideo = currentVideo in unwatchedVideos
                 onWatchedButtonPressed = {
                     if (video in unwatchedVideos) {
-                        setUnwatchedVideos(unwatchedVideos - video)
-                        setWatchedVideos(watchedVideos + video)
+                        unwatchedVideos = unwatchedVideos - video
+                        watchedVideos = watchedVideos + video
                     } else {
-                        setUnwatchedVideos(unwatchedVideos + video)
-                        setWatchedVideos(watchedVideos - video)
+                        unwatchedVideos = unwatchedVideos + video
+                        watchedVideos = watchedVideos - video
                     }
                 }
             }
